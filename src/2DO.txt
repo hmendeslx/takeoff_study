@@ -1,3 +1,9 @@
+## Restructure this project on 2020 to adapt for the A340 analysis in Bogota 
+##
+##
+
+
+
 ####
 * incluir flex temps + pressões q e total + SAT + TAT + GW + parâmetros intermédios de motor
 
