@@ -13,6 +13,11 @@
 # Clean workspace (& environment data)
 rm(list=ls(all=TRUE))
 
+# Capture working directory
+# > setwd(work_dir) ...will recover the path for the initial folder
+# > setwd("nameofthefolder") ...will direct to a new folder, eg: data, output, etc.
+work_dir <- getwd()
+
 timech1_0 <- proc.time()
 
 library(ggplot2)
@@ -26,6 +31,7 @@ library(xtable)
 library(data.table)
 library(psych)
 
+#########################################################################
 # finding parameters - Trouble-shooting
 # use:
 # > testpar("EXAMPLE")
@@ -39,7 +45,7 @@ testpar <- function(str){
   return(name)
 }
 
-
+#########################################################################
 panel.cor <- function(x, y, digits=2, prefix="", cex.cor, ...)
 {
   usr <- par("usr"); on.exit(par(usr))
@@ -52,7 +58,7 @@ panel.cor <- function(x, y, digits=2, prefix="", cex.cor, ...)
 }
 
 
-
+#########################################################################
 # derivative of a vector
 derivative <- function(vector,time_interval) {
   #f_i1 is the parameter value at instant i
@@ -74,7 +80,7 @@ derivative <- function(vector,time_interval) {
   return(f_derivative)
 }
 
-
+#########################################################################
 to_plots <- function(){
 
   # Take-Off Start and End Points determination
@@ -257,128 +263,134 @@ to_plots <- function(){
   gw_final <- data_takeoff$GW1KG[(t1-t0)+1]
   fuel_gw <- gw_ini - gw_final
   time_considered <- (t1-t0)/8
-  # calculo de consumo através do FF - comparar com o de cima
+  # calculo de consumo atrav?s do FF - comparar com o de cima
 
   # Graphics
   # Fast Testing Command:
   # > with(data_takeoff, plot(FF1, N21, type="l", col="blue")); grid(,,col="dark red")
-  setwd(figurepath)
+  setwd(work_dir)
+  setwd("output")
 
-  png("to_t25.png", width=960)
-  p1 <- qplot(time, T25_1, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]",geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-
-  p2 <- qplot(time, T25_2, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]", geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-  arrange(p1,p2)
-  dev.off()
-
-  
-  png("to_vibn1fnt.png", width=960)
-  p1 <- qplot(time, VIB_N1FNT1, data=data_takeoff,  col=I("blue"),
+  png("t25_1.png")
+  p <- qplot(time, T25_1, data=data_takeoff,  col=I("blue"),
               xlab="Time [seconds]",geom=c("line"), size=I(1)) +
-              geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-              geom_vline(xintercept=rot, color="green", size=1)
-  
-  p2 <- qplot(time, VIB_N1FNT2, data=data_takeoff,  col=I("blue"),
-              xlab="Time [seconds]", geom=c("line"), size=I(1)) +
-              geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-              geom_vline(xintercept=rot, color="green", size=1)
-  arrange(p1,p2)
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
   dev.off()
   
-
-  png("to_vibn2fnt.png", width=960)
-  p1 <- qplot(time, VIB_N2FNT1, data=data_takeoff,  col=I("blue"),
+  png("t25_2.png")
+  p <- qplot(time, T25_2, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]", geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("vib_n1fnt1.png")
+  p <- qplot(time, VIB_N1FNT1, data=data_takeoff,  col=I("blue"),
               xlab="Time [seconds]",geom=c("line"), size=I(1)) +
-              geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-              geom_vline(xintercept=rot, color="green", size=1)
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
   
-  p2 <- qplot(time, VIB_N2FNT2, data=data_takeoff,  col=I("blue"),
+  png("vib_n1fnt2.png")
+  p <- qplot(time, VIB_N1FNT2, data=data_takeoff,  col=I("blue"),
               xlab="Time [seconds]", geom=c("line"), size=I(1)) +
-              geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-              geom_vline(xintercept=rot, color="green", size=1)
-  arrange(p1,p2)
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
   dev.off()
   
+  png("vib_n2fnt1.png")
+  p <- qplot(time, VIB_N2FNT1, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]",geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
   
-  png("to_speeds.png", width=960)
-  p1 <- qplot(time, IAS, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]",geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-
-  p2 <- qplot(time, MACH, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]", geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-  arrange(p1,p2)
+  png("vib_n2fnt2.png")
+  p <- qplot(time, VIB_N2FNT2, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]", geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("ias.png")
+  p <- qplot(time, IAS, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]",geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("t12_1.png")
+  p <- qplot(time, T12_1, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]",geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("t12_2.png")
+  p <- qplot(time, T12_2, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]", geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
   dev.off()
 
-
-  png("to_t12.png", width=960)
-  p1 <- qplot(time, T12_1, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]",geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-
-  p2 <- qplot(time, T12_2, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]", geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-  arrange(p1,p2)
+  png("p31.png")
+  p <- qplot(time, P31, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]",geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("p32.png")
+  p <- qplot(time, P32, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]", geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
   dev.off()
 
-
-  png("to_p3.png", width=960)
-  p1 <- qplot(time, P31, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]",geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-
-  p2 <- qplot(time, P32, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]", geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-  #print(p)
-  arrange(p1,p2)
+  png("p2_1.png")
+  p <- qplot(time, P2_1, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]",geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("p2_2.png")
+  p <- qplot(time, P2_2, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]", geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
   dev.off()
 
-  png("to_p2.png", width=960)
-  p1 <- qplot(time, P2_1, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]",geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-  #print(p)
-  #dev.off()
-
-  #png("to_gsms.png")
-  p2 <- qplot(time, P2_2, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]", geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-  #print(p)
-  arrange(p1,p2)
+  png("win_spd.png")
+  p <- qplot(time, WIN_SPD, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]",geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
   dev.off()
-
-  png("to_wind.png", width=960)
-  p1 <- qplot(time, WIN_SPD, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]",geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-
-  p2 <- qplot(time, WIN_DIR, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]", geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-  arrange(p1,p2)
+  
+  png("win_dir.png")
+  p <- qplot(time, WIN_DIR, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]", geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
   dev.off()
-
-
+  
   png("to_gw.png")
   p <- qplot(time, GW1KG, data=data_takeoff,  col=I("blue"),
           xlab="Time [seconds]", geom=c("line"), size=I(1)) + 
@@ -403,217 +415,239 @@ to_plots <- function(){
   print(p)
   dev.off()
 
-
-  png("to_p0.png", width=960)
-  p1 <- qplot(time, P0_1, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]", ylab="P01"  ,geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-  #print(p)
-  #dev.off()
-
-  #png("to_gsms.png")
-  p2 <- qplot(time, P0_2, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]", ylab="P02", geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-  #print(p)
-  arrange(p1,p2)
-  dev.off()
-
-
-  png("to_pt.png", width=960)
-  p1 <- qplot(time, PT1, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]",  ylab="Total Press Sys 1" ,geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-  #print(p)
-  #dev.off()
-
-  #png("to_gsms.png")
-  p2 <- qplot(time, PT2, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]",  ylab="Total Press Sys 2" ,geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-  #print(p)
-  arrange(p1,p2)
-  dev.off()
-
-
-  png("to_q.png", width=960)
-  p1 <- qplot(time, Q1, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]",  ylab="Dynamic Press Sys 1" ,geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-  #print(p)
-  #dev.off()
-
-  #png("to_gsms.png")
-  p2 <- qplot(time, Q2, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]",  ylab="Dynamic Press Sys 2" ,geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-  #print(p)
-  arrange(p1,p2)
-  dev.off()
-
-
-  png("to_tla.png", width=960)
-  p1 <- qplot(time, TLA1C, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]",  ylab="Thrust Lever Position Eng 1" ,geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-
-  p2 <- qplot(time, TLA2C, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]",  ylab="Thrust Lever Position Eng 2" ,geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-  arrange(p1,p2)
-  dev.off()
-
-
-  png("to_tla_ang.png", width=960)
-  p1 <- qplot(time, TLA1, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]",  ylab="Thrust Lever Angle Eng 1" ,geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-
-  p2 <- qplot(time, TLA2, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]",  ylab="Thrust Lever Angle Eng 2" ,geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-
-  arrange(p1,p2)
-  dev.off()
-
-
-  png("to_temp.png", width=960)
-  p1 <- qplot(time, SAT, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]",  ylab="Static Air Temperature [degC]" ,geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-
-  p2 <- qplot(time, TAT, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]",  ylab="Total Air Temperature [degC]" ,geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-  arrange(p1,p2)
-  dev.off()
-
-
-  png("to_flxtemp.png", width=960)
-  p1 <- qplot(time, FLX1_TEMP, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]",  ylab="Flex Temperature [degC]" ,geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-  
-  p2 <- qplot(time, FLX2_TEMP, data=data_takeoff,  col=I("blue"),
-            xlab="Time [seconds]",  ylab="Flex Temperature [degC]" ,geom=c("line"), size=I(1)) +
-            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-  #print(p)
-  arrange(p1,p2)
-  dev.off()
-
-
-  png("to_gs.png", width=960)
-  p1 <- qplot(time, GS, data=data_takeoff,  col=I("blue"),
-             xlab="Time [seconds]",  ylab="Ground Speed [Knot]" ,geom=c("line"), size=I(1)) +
-             geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-             geom_vline(xintercept=rot, color="green", size=1)
-
-  p2 <- qplot(time, GS_MS, data=data_takeoff,  col=I("blue"),
-           xlab="Time [seconds]",  ylab="Ground Speed [m/s]" ,geom=c("line"), size=I(1)) +
-           geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-           geom_vline(xintercept=rot, color="green", size=1)
-  arrange(p1,p2)
-  dev.off()
-
-  png("to_raltd1.png", width=960)
-  p1 <- qplot(time, RALTD1, data=data_takeoff,  col=I("blue"),
-             xlab="Time [seconds]", geom=c("line"), size=I(1)) +
-             geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-             geom_vline(xintercept=rot, color="green", size=1)
-
-  p2 <- qplot(time, RALTD2, data=data_takeoff, col=I("blue"),
-           xlab="Time [seconds]", geom=c("line"), size=I(1)) +
-           geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-           geom_vline(xintercept=rot, color="green", size=1)
-  arrange(p1,p2)
-  dev.off()
-
-  png("to_n11.png", width=960)
-  p1 <- qplot(time, N11, data=data_takeoff,  col=I("blue"),
-             xlab="Time [seconds]", geom=c("line"), size=I(1)) + 
-             geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-             geom_vline(xintercept=rot, color="green", size=1)
-
-  p2 <- qplot(time, N12, data=data_takeoff, col=I("blue"),
-           xlab="Time [seconds]", geom=c("line"), size =I(1)) +
-           geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-           geom_vline(xintercept=rot, color="green", size=1)
-  arrange(p1,p2)
-  dev.off()
-
-
-  png("to_n21.png", width=960)
-  p1 <- qplot(time, N21, data=data_takeoff, col=I("blue"),
-             xlab="Time [seconds]", geom=c("line"), size=I(1)) +
-             geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-             geom_vline(xintercept=rot, color="green", size=1)
-
-  p2 <- qplot(time, N22, data=data_takeoff, col=I("blue"),
-             xlab="Time [seconds]", geom=c("line"), size=I(1)) +
-             geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-             geom_vline(xintercept=rot, color="green", size=1)
-  arrange(p1,p2)
+  png("p0_1.png")
+  p <- qplot(time, P0_1, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]", ylab="P01"  ,geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
   dev.off()
   
-
-  png("to_ff1.png", width=960)
-  p1 <- qplot(time, FF1, data=data_takeoff, col=I("blue"),
-             xlab="Time [seconds]", geom=c("line"), size=I(1)) +
-             geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-             geom_vline(xintercept=rot, color="green", size=1)
-
-  p2 <- qplot(time, FF2, data=data_takeoff, col=I("blue"),
-             xlab="Time [seconds]", geom=c("line"), size=I(1)) + 
-             geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-             geom_vline(xintercept=rot, color="green", size=1)
-  arrange(p1,p2)
+  png("p0_2.png")
+  p <- qplot(time, P0_2, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]", ylab="P02", geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
   dev.off()
   
-  
-  png("to_egt1.png", width=960)
-  p1 <- qplot(time, EGT1, data=data_takeoff, col=I("blue"),
-             xlab="Time [seconds]", geom=c("line"), size=I(1)) + 
-             geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-             geom_vline(xintercept=rot, color="green", size=1)
-
-  p2 <- qplot(time, EGT2, data=data_takeoff, col=I("blue"),
-             xlab="Time [seconds]", geom=c("line"), size=I(1)) +
-             geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-            geom_vline(xintercept=rot, color="green", size=1)
-  arrange(p1,p2)
+  png("pt1.png")
+  p <- qplot(time, PT1, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]",  ylab="Total Press Sys 1" ,geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
   dev.off()
   
+  png("pt2.png")
+  p <- qplot(time, PT2, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]",  ylab="Total Press Sys 2" ,geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
   
-  png("to_long.png", width=960)
-  p1 <- qplot(time, LONG, data=data_takeoff,  col=I("blue"),
-             xlab="Time [seconds]", ylab="LONG [g]", ylim=c(-0.05,0.35) ,geom=c("line"), size=I(1)) +
-             geom_vline(xintercept=loff_sec, color="dark red", size=1) + 
-             geom_vline(xintercept=rot, color="green", size=1)
-
-  p2 <- qplot(time, GSDOT_FILT, data=data_takeoff,  col=I("blue"),
-           xlab="Time [seconds]", ylim=c(-0.05,0.35), geom=c("line"), size=I(1)) +
-           geom_vline(xintercept=loff_sec, color="dark red", size=1) + 
-           geom_vline(xintercept=rot, color="green", size=1)
-  #print(p)
-  arrange(p1,p2)
+  png("q1.png")
+  p <- qplot(time, Q1, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]",  ylab="Dynamic Press Sys 1" ,geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("q1.png")
+  p <- qplot(time, Q1, data=data_takeoff,  col=I("blue"),
+             xlab="Time [seconds]",  ylab="Dynamic Press Sys 1" ,geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("q2.png")
+  p <- qplot(time, Q2, data=data_takeoff,  col=I("blue"),
+             xlab="Time [seconds]",  ylab="Dynamic Press Sys 1" ,geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("tla1c.png")
+  p <- qplot(time, TLA1C, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]",  ylab="Thrust Lever Position Eng 1" ,geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("tla2c.png")
+  p <- qplot(time, TLA2C, data=data_takeoff,  col=I("blue"),
+             xlab="Time [seconds]",  ylab="Thrust Lever Position Eng 1" ,geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("tla1.png")
+  p <- qplot(time, TLA1, data=data_takeoff,  col=I("blue"),
+             xlab="Time [seconds]",  ylab="Thrust Lever Position Eng 1" ,geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("tla2.png")
+  p <- qplot(time, TLA2, data=data_takeoff,  col=I("blue"),
+             xlab="Time [seconds]",  ylab="Thrust Lever Position Eng 2" ,geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("sat.png")
+  p <- qplot(time, SAT, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]",  ylab="Static Air Temperature [degC]" ,geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("tat.png")
+  p <- qplot(time, TAT, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]",  ylab="Total Air Temperature [degC]" ,geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
   dev.off()
 
-
-  png("to_ptcr_dot.png")
+  png("flx1_temp.png")
+  p <- qplot(time, FLX1_TEMP, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]",  ylab="Flex Temperature [degC]" ,geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("flx2_temp.png")
+  p <- qplot(time, FLX2_TEMP, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]",  ylab="Flex Temperature [degC]" ,geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("gs.png")
+  p <- qplot(time, GS, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]",  ylab="Ground Speed [Knot]" ,geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("gs_ms.png")
+  p <- qplot(time, GS_MS, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]",  ylab="Ground Speed [m/s]" ,geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("raltd1.png")
+  p <- qplot(time, RALTD1, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]", geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("raltd2.png")
+  p <- qplot(time, RALTD2, data=data_takeoff, col=I("blue"),
+              xlab="Time [seconds]", geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("n11.png")
+  p <- qplot(time, N11, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]", geom=c("line"), size=I(1)) + 
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("n12.png")
+  p <- qplot(time, N12, data=data_takeoff, col=I("blue"),
+              xlab="Time [seconds]", geom=c("line"), size =I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("n21.png")
+  p <- qplot(time, N21, data=data_takeoff, col=I("blue"),
+              xlab="Time [seconds]", geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("n22.png")
+  p <- qplot(time, N22, data=data_takeoff, col=I("blue"),
+              xlab="Time [seconds]", geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("ff1.png")
+  p <- qplot(time, FF1, data=data_takeoff, col=I("blue"),
+              xlab="Time [seconds]", geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("ff2.png")
+  p <- qplot(time, FF2, data=data_takeoff, col=I("blue"),
+              xlab="Time [seconds]", geom=c("line"), size=I(1)) + 
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("egt1.png")
+  p <- qplot(time, EGT1, data=data_takeoff, col=I("blue"),
+              xlab="Time [seconds]", geom=c("line"), size=I(1)) + 
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("egt2.png")
+  p <- qplot(time, EGT2, data=data_takeoff, col=I("blue"),
+              xlab="Time [seconds]", geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("long.png")
+  p <- qplot(time, LONG, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]", ylab="LONG [g]", ylim=c(-0.05,0.35) ,geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) + 
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("gsdot_filt.png")
+  p <- qplot(time, GSDOT_FILT, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]", ylim=c(-0.05,0.35), geom=c("line"), size=I(1)) +
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) + 
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("ptcr_dot.png")
   p <- qplot(time, PTCR_DOT, data=data_takeoff,  col=I("blue"),
              xlab="Time [seconds]", geom=c("line"), size=I(1)) + 
              geom_vline(xintercept=loff_sec, color="dark red", size=1) +
@@ -621,26 +655,23 @@ to_plots <- function(){
   print(p)
   dev.off()
 
-
-  png("to_pitch_cpt.png", width=960)
-  p1 <- qplot(time, PITCH_CPT, data=data_takeoff,  col=I("blue"),
-           xlab="Time [seconds]", geom=c("line"), size=I(1)) + 
-           geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-           geom_vline(xintercept=rot, color="green", size=1)
-  #print(p)
-  #dev.off()
-
-  #png("to_pitch_fo.png")
-  p2 <- qplot(time, PITCH_FO, data=data_takeoff,  col=I("blue"),
-           xlab="Time [seconds]", geom=c("line"), size=I(1)) + 
-           geom_vline(xintercept=loff_sec, color="dark red", size=1) +
-           geom_vline(xintercept=rot, color="green", size=1)
-  #print(p)
-  arrange(p1,p2)
+  png("pitch_capt.png")
+  p <- qplot(time, PITCH_CPT, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]", geom=c("line"), size=I(1)) + 
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
   dev.off()
 
-
-  png("to_pitch.png")
+  png("pitch_fo.png")
+  p <- qplot(time, PITCH_FO, data=data_takeoff,  col=I("blue"),
+              xlab="Time [seconds]", geom=c("line"), size=I(1)) + 
+    geom_vline(xintercept=loff_sec, color="dark red", size=1) +
+    geom_vline(xintercept=rot, color="green", size=1)
+  print(p)
+  dev.off()
+  
+  png("pitch.png")
   p <- qplot(time, PITCH, data=data_takeoff,  col=I("blue"),
            xlab="Time [seconds]", geom=c("line"), size=I(1)) + 
            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
@@ -648,8 +679,7 @@ to_plots <- function(){
   print(p)
   dev.off()
 
-
-  png("to_ptcr.png")
+  png("ptcr.png")
   p <- qplot(time, PTCR, data=data_takeoff,  col=I("blue"),
            xlab="Time [seconds]", geom=c("line"), size=I(1)) + 
            geom_vline(xintercept=loff_sec, color="dark red", size=1) +
@@ -665,7 +695,7 @@ to_plots <- function(){
   print(p)
   dev.off()
 
-  png("to_vrtg.png")
+  png("vrtg.png")
   p <- qplot(time, VRTG, data=data_takeoff,  col=I("blue"),
            xlab="Time [seconds]", geom=c("line"), size=I(1)) + 
     geom_vline(xintercept=loff_sec, color="dark red", size=1) +
@@ -673,7 +703,7 @@ to_plots <- function(){
   print(p)
   dev.off()
 
-  png("to_fpac.png")
+  png("fpac.png")
   p <- qplot(time, FPAC, data=data_takeoff,  col=I("blue"),
            xlab="Time [seconds]", geom=c("line"), size=I(1)) + 
     geom_vline(xintercept=loff_sec, color="dark red", size=1) +
@@ -687,7 +717,7 @@ to_plots <- function(){
 # http://www.sthda.com/english/wiki/add-legends-to-plots-in-r-software-the-easiest-way
 
 
-png("to_landgear.png")  
+png("landing_gear.png")  
 
 with(data_takeoff, plot(time,LG_left, type="l", ylab="Landing Gear",col="blue",lwd=2))
 with(data_takeoff, lines(time,LG_nose, type="l", col="black",lwd=2))
@@ -700,32 +730,13 @@ grid(,,col="dark red")
 legend("bottomleft",legend=c("Landing Gear Left","Landing Gear Nose","Landing Gear Right")
        ,col=c("blue","black","brown"),bg="light blue",lwd=1, cex=1)
 
-
 dev.off()
 
 
-
-##############################################################################
+#################################################
 # Graphics from Correlation of several parameters
 
-  #setwd(figurepath)
-#   png("ffvsn2.png", width=1500)
-#   #p1 <- qplot(FF1,N21,data=data_takeoff,col=I("red"))
-#   p1 <- ggplot(data=data_takeoff, aes(x=FF1, y=N21)) + geom_point(color="red", size=3) + theme(text = element_text(size=25))
-#   #
-#   p2 <- ggplot(data=data_takeoff, aes(x=FF2, y=N22)) + geom_point(color="red", size=3) + theme(text = element_text(size=25))
-#   arrange(p1,p2)
-#   dev.off()
-# 
-#   png("n2vsn1.png", width=1500)
-#   #p1 <- ggplot(data=data_takeoff, aes(x=N21, y=N11)) + geom_point(col=I("red")) + theme(text = element_text(size=25))
-#   p1 <- ggplot(data=data_takeoff, aes(x=N21, y=N11)) + geom_point(color="blue",size=3) + theme(text = element_text(size=25))
-#   #
-#   p2 <- ggplot(data=data_takeoff, aes(x=N22, y=N12)) + geom_point(color="blue",size=3) + theme(text = element_text(size=25))
-#   arrange(p1,p2)
-#   dev.off()
-
-  png("tlavsff_eng1.png") #
+  png("tla_vs_ff_eng1.png") #
   with(data_takeoff, plot( TLA1, FF1, type="l", col="blue", lwd=1.5))
   regress <- lm(FF1 ~ TLA1, data_takeoff)
   sum_reg <- summary(regress)
@@ -734,16 +745,14 @@ dev.off()
   grid(,,"dark red")
   dev.off()
 
-  setwd(resultpath)
+#  Capture information about the regression for the final report
   line1 <- paste("\\","begin{verbatim}",sep="")
-  write(line1, file="tlavsff_eng1.tex")
-  capture.output(sum_reg, file="tlavsff_eng1.tex", append=TRUE)
+  write(line1, file="tla_vs_ff_eng1.tex")
+  capture.output(sum_reg, file="tla_vs_ff_eng1.tex", append=TRUE)
   line2 <- paste("\\","end{verbatim}",sep="")
-  write(line2, file="tlavsff_eng1.tex", append=TRUE)
-  setwd(figurepath)
+  write(line2, file="tla_vs_ff_eng1.tex", append=TRUE)
 
-
-  png("tlavsff_eng2.png")
+  png("tla_vs_ff_eng2.png")
   with(data_takeoff, plot( TLA2, FF2, type="l", col="blue", lwd=1.5))
   regress <- lm(FF2 ~ TLA2, data_takeoff)
   sum_reg <- summary(regress)
@@ -752,16 +761,14 @@ dev.off()
   grid(,,"dark red")
   dev.off()
 
-  setwd(resultpath)
+  #  Capture information about the regression for the final report
   line1 <- paste("\\","begin{verbatim}",sep="")
-  write(line1, file="tlavsff_eng2.tex")
-  capture.output(sum_reg, file="tlavsff_eng2.tex", append=TRUE)
+  write(line1, file="tla_vs_ff_eng2.tex")
+  capture.output(sum_reg, file="tla_vs_ff_eng2.tex", append=TRUE)
   line2 <- paste("\\","end{verbatim}",sep="")
-  write(line2, file="tlavsff_eng2.tex", append=TRUE)
-  setwd(figurepath)
+  write(line2, file="tla_vs_ff_eng2.tex", append=TRUE)
 
-
-  png("ffvsn2_eng1.png") #
+  png("ff_vs_n2_eng1.png") #
   with(data_takeoff, plot( FF1, N21, type="l", col="blue", lwd=1.5))
   regress <- lm(N21 ~ FF1, data_takeoff)
   sum_reg <- summary(regress)
@@ -770,16 +777,14 @@ dev.off()
   grid(,,"dark red")
   dev.off()
 
-  setwd(resultpath)
+  #  Capture information about the regression for the final report
   line1 <- paste("\\","begin{verbatim}",sep="")
-  write(line1, file="ffvsn2_eng1.tex")
-  capture.output(sum_reg, file="ffvsn2_eng1.tex", append=TRUE)
+  write(line1, file="ff_vs_n2_eng1.tex")
+  capture.output(sum_reg, file="ff_vs_n2_eng1.tex", append=TRUE)
   line2 <- paste("\\","end{verbatim}",sep="")
-  write(line2, file="ffvsn2_eng1.tex", append=TRUE)
-  setwd(figurepath)
+  write(line2, file="ff_vs_n2_eng1.tex", append=TRUE)
 
-
-  png("ffvsn2_eng2.png") #
+  png("ff_vs_n2_eng2.png") #
   with(data_takeoff, plot( FF2, N22, type="l", col="blue", lwd=1.5))
   regress <- lm(N22 ~ FF2, data_takeoff)
   sum_reg <- summary(regress)
@@ -788,16 +793,14 @@ dev.off()
   grid(,,"dark red")
   dev.off()
 
-  setwd(resultpath)
+  #  Capture information about the regression for the final report
   line1 <- paste("\\","begin{verbatim}",sep="")
-  write(line1, file="ffvsn2_eng2.tex")
-  capture.output(sum_reg, file="ffvsn2_eng2.tex", append=TRUE)
+  write(line1, file="ff_vs_n2_eng2.tex")
+  capture.output(sum_reg, file="ff_vs_n2_eng2.tex", append=TRUE)
   line2 <- paste("\\","end{verbatim}",sep="")
-  write(line2, file="ffvsn2_eng2.tex", append=TRUE)
-  setwd(figurepath)
+  write(line2, file="ff_vs_n2_eng2.tex", append=TRUE)
 
-
-  png("n1vsn2_eng1.png") #
+  png("n1_vs_n2_eng1.png") #
   with(data_takeoff, plot( N21, N11, type="l", col="blue", lwd=1.5))
   regress <- lm(N11 ~ N21, data_takeoff)
   sum_reg <- summary(regress)
@@ -806,16 +809,14 @@ dev.off()
   grid(,,"dark red")
   dev.off()
 
-  setwd(resultpath)
+  #  Capture information about the regression for the final report
   line1 <- paste("\\","begin{verbatim}",sep="")
-  write(line1, file="n1vsn2_eng1.tex")
-  capture.output(sum_reg, file="n1vsn2_eng1.tex", append=TRUE)
+  write(line1, file="n1_vs_n2_eng1.tex")
+  capture.output(sum_reg, file="n1_vs_n2_eng1.tex", append=TRUE)
   line2 <- paste("\\","end{verbatim}",sep="")
-  write(line2, file="n1vsn2_eng1.tex", append=TRUE)
-  setwd(figurepath)
+  write(line2, file="n1_vs_n2_eng1.tex", append=TRUE)
 
-
-  png("n1vsn2_eng2.png") #
+  png("n1_vs_n2_eng2.png") #
   with(data_takeoff, plot( N22, N12, type="l", col="blue", lwd=1.5))
   regress <- lm(N12 ~ N22, data_takeoff)
   sum_reg <- summary(regress)
@@ -824,49 +825,49 @@ dev.off()
   grid(,,"dark red")
   dev.off()
 
-  setwd(resultpath)
+  #  Capture information about the regression for the final report
   line1 <- paste("\\","begin{verbatim}",sep="")
-  write(line1, file="n1vsn2_eng2.tex")
-  capture.output(sum_reg, file="n1vsn2_eng2.tex", append=TRUE)
+  write(line1, file="n1_vs_n2_eng2.tex")
+  capture.output(sum_reg, file="n1_vs_n2_eng2.tex", append=TRUE)
   line2 <- paste("\\","end{verbatim}",sep="")
-  write(line2, file="n1vsn2_eng2.tex", append=TRUE)
-#  setwd(figurepath)
+  write(line2, file="n1_vs_n2_eng2.tex", append=TRUE)
 
 
   N21_estimate <- lm(N21 ~ FF1 + TLA1 + SAT, data_takeoff)
   N21est <- summary(N21_estimate)
   line1 <- paste("\\","begin{verbatim}",sep="")
-  write(line1, file="N21est.tex")
-  capture.output(N21est, file="N21est.tex", append=TRUE)
+  write(line1, file="N21_estimate.tex")
+  capture.output(N21est, file="N21_estimate.tex", append=TRUE)
   line2 <- paste("\\","end{verbatim}",sep="")
-  write(line2, file="N21est.tex", append=TRUE)
+  write(line2, file="N21_estimate.tex", append=TRUE)
 
   N22_estimate <- lm(N22 ~ FF2 + TLA2 + SAT, data_takeoff)
   N22est <- summary(N22_estimate)
   line1 <- paste("\\","begin{verbatim}",sep="")
-  write(line1, file="N22est.tex")
-  capture.output(N22est, file="N22est.tex", append=TRUE)
+  write(line1, file="N22_estimate.tex")
+  capture.output(N22est, file="N22_estimate.tex", append=TRUE)
   line2 <- paste("\\","end{verbatim}",sep="")
-  write(line2, file="N22est.tex", append=TRUE)
-
+  write(line2, file="N22_estimate.tex", append=TRUE)
 
 
   #teste <- print(xtable(unlist(N2est$coefficient), format="latex"), include.rownames=TRUE, size="scriptsize") 
   #teste1 <- print(xtablne(as.matrix(N2est$terms), format="latex"), include.rownames=TRUE, size="scriptsize") 
-
   #print.sumreg <- print(xtable(sum_reg, format="latex"), include.rownames=FALSE, size="scriptsize") 
-
   # Pais Testing
   #pairs(~N21+N11+FF1+EGT1+P0_1+P2_1+P31+T12_1+T25_1, data=data_takeoff, pch=20, col="blue", lower.panel=panel.smooth, upper.panel=panel.cor)
 
+  
+  ##$## PDF reporting commented on 9 May 2020 to recover in a later stage
+  
   # PDF Reporting
   #setwd(binpath)
-#  setwd(resultpath)
-  brew("Rtoffrep.brew", paste0('Rtoffrep',s,".tex"))
-  texi2dvi(paste0('Rtoffrep',s,".tex"), pdf = TRUE)
 
+#  brew("Rtoffrep.brew", paste0('Rtoffrep',s,".tex"))
+#  texi2dvi(paste0('Rtoffrep',s,".tex"), pdf = TRUE)
+
+  setwd(work_dir)
 }
-
+#########################################################################
 landing_plots <- function(){
   
   # cleaning NANs fron TOUCHDOWNC
@@ -1012,7 +1013,7 @@ arrange <- function(..., nrow=NULL, ncol=NULL, as.table=FALSE) {
 }
 
 
-#### START MAIN PROCEDURE
+########################## START OF MAIN PROCEDURE ##############################
 #################################################################################
 ### Choose the type of analysis:
 ###  * set = 1 at the report desired (both =1 allowed)
@@ -1025,21 +1026,12 @@ c_knot_ms <- 1852/3600
 c_ms_kmh <- 3.6
 area <- 138 # [m^2] - surface of the wing with flaps 
 
-## paths
-flightpath <- "V:/HM/FlightDB"    ## Insert case into the respective folder
-#flightpath <- "C:/FlightDB/TTD"    ## Insert case into the respective folder
-#flightpath <- "C:/FlightDB/ZRH"    ## Insert case into the respective folder
-#flightpath <- "C:/FlightDB/UBI"    ## Insert case into the respective folder
-binpath <- "C:/Users/210906/Dropbox/EASA/flightRtools/Rtoff/bin"
-resultpath <- "C:/Users/210906/Dropbox/EASA/flightRtools/Rtoff/results"
-figurepath <- "C:/Users/210906/Dropbox/EASA/flightRtools/Rtoff/results/figures"
+# file list capture
+setwd("data")
+fileList <- list.files(path=getwd(), pattern=".csv")
 
-# file list
-setwd(flightpath)
-fileList <- list.files(path=flightpath, pattern=".csv")
-
-## Escolher o ficheiro pelo nº "s"
-s = 1
+## Escolher o ficheiro pelo n? "s"
+s = 2
 #s=25
 
 # alternativa - fazer o enable deste ciclo FOR para todos os ficheiros do folder
@@ -1053,7 +1045,7 @@ s = 1
 
   
   ## LOAD Flight From List
-  setwd(flightpath)
+#  setwd(flightpath)
   flightdata <- fread(fileList[s],sep=",",header=T, stringsAsFactors = F, verbose=FALSE,
                       colClasses = c(ACT='character', AC_TYPE='character', ORIGIN='character', 
                       RUNWAY_TO='character', RUNWAY_LD='character', DESTINATION='character', 
