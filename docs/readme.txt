@@ -1,15 +1,7 @@
-Take-Off and Landing performance tool
+Takeoff study
+HM @ May 2020
 
-main file = Rtoffland.R
-
-
-
-Scope Take-Off:
-- desde aplicação de potencia de Take-Off
-- Até à rotação (método do Flare!)
-
-- Determinar pontos de rotação e de Lift-OFF (Estudo já feito!). 
-- validar LO posterior à rotação!
+main file = takeoff_study.R
 
 
-Scope Landing:
+
