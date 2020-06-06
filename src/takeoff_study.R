@@ -2,6 +2,9 @@
 # Takeoff Performance study
 # HM @May2020
 #
+# Never delete from the output folder:
+# - easa.png
+# - takeoff.brew 
 #
 
 # Clean workspace (& environment data)
@@ -137,150 +140,140 @@ to_plots <- function(){
   setwd("output")
 
   png("GS.png")
-  plot(flightdata$GS,type = "l",col="blue", ylab = "Ground Speed [Kts]", xlab = "Time [sec]")
-  grid(,,col="red")
-  dev.off()
-  
-  png("VERTG.png")
-  plot(flightdata$VERTG,type = "l",col="blue", ylab = "Vertical Acceleration [g]", xlab = "Time [sec]")
+  plot(gs,type = "l",col="blue", ylab = "Ground Speed [Kts]", xlab = "Time [1/8 sec]")
   grid(,,col="red")
   dev.off()
   
   png("CAS.png")
-  plot(flightdata$CAS,type = "l",col="blue", ylab = "Calibrated Airspeed [Kts]", xlab = "Time [sec]")
+  plot(cas,type = "l",col="blue", ylab = "Calibrated Airspeed [Kts]", xlab = "Time [1/8 sec]")
   grid(,,col="red")
   dev.off()
   
-  flightdata$RALT1[which(flightdata$RALT1==4095)] <- -1
-  flightdata$RALT1[which(flightdata$RALT1==4094)] <- -2
-  flightdata$RALT1[which(flightdata$RALT1==4092)] <- -4
   png("RALT1.png")
-  plot(flightdata$RALT1,type = "l",col="blue", ylab = "Radio Altemeter #1 [ft]", xlab = "Time [sec]")
+  plot(ralt1,type = "l",col="blue", ylab = "Radio Altemeter #1 [ft]", xlab = "Time [1/8 sec]")
   grid(,,col="red")
   dev.off()
   
-  flightdata$RALT2[which(flightdata$RALT2==4095)] <- -1
-  flightdata$RALT2[which(flightdata$RALT2==4094)] <- -2
-  flightdata$RALT2[which(flightdata$RALT2==4093)] <- -3
   png("RALT2.png")
-  plot(flightdata$RALT2,type = "l",col="blue", ylab = "Radio Altemeter #2 [ft]", xlab = "Time [sec]")
-  grid(,,col="red")
-  dev.off()
-  
-  png("PITCH.png")
-  plot(flightdata$PITCH,type = "l",col="blue", ylab = "Pitch [deg]", xlab = "Time [sec]")
-  grid(,,col="red")
-  dev.off()
-  
-  png("PITCH_RATE.png")
-  plot(flightdata$PITCH_RATE,type = "l",col="blue", ylab = "Pitch Rate [deg/s]", xlab = "Time [sec]")
-  grid(,,col="red")
-  dev.off()
-  
-  png("PITCH_CAPT.png")
-  plot(flightdata$PITCH_CAPT,type = "l",col="blue", ylab = "Pitch Command Capt", xlab = "Time [sec]")
-  grid(,,col="red")
-  dev.off()
-  
-  png("PITCH_FO.png")
-  plot(flightdata$PITCH_FO,type = "l",col="blue", ylab = "Pitch Command FO", xlab = "Time [sec]")
-  grid(,,col="red")
-  dev.off()
-  
-  png("LONG.png")
-  plot(flightdata$LONG,type = "l",col="blue", ylab = "Longitudinal Acceleration [g]", xlab = "Time [sec]")
-  grid(,,col="red")
-  dev.off()
-  
-  png("SAT.png")
-  plot(flightdata$SAT,type = "l",col="blue", ylab = "Static Air Temperature [deg C]", xlab = "Time [sec]")
-  grid(,,col="red")
-  dev.off()
-  
-  png("N1_1.png")
-  plot(flightdata$N1_1,type = "l",col="blue", ylab = "N1 Eng #1 [%]", xlab = "Time [sec]")
-  grid(,,col="red")
-  dev.off()
-  
-  png("N1_2.png")
-  plot(flightdata$N1_2,type = "l",col="blue", ylab = "N1 Eng #2 [%]", xlab = "Time [sec]")
-  grid(,,col="red")
-  dev.off()
-  
-  png("N1_3.png")
-  plot(flightdata$N1_3,type = "l",col="blue", ylab = "N1 Eng #3 [%]", xlab = "Time [sec]")
-  grid(,,col="red")
-  dev.off()
-  
-  png("N1_4.png")
-  plot(flightdata$N1_4,type = "l",col="blue", ylab = "N1 Eng #4 [%]", xlab = "Time [sec]")
-  grid(,,col="red")
-  dev.off()
-  
-  png("N2_1.png")
-  plot(flightdata$N2_1,type = "l",col="blue", ylab = "N2 Eng #1 [%]", xlab = "Time [sec]")
-  grid(,,col="red")
-  dev.off()
-  
-  png("N2_2.png")
-  plot(flightdata$N2_2,type = "l",col="blue", ylab = "N2 Eng #2 [%]", xlab = "Time [sec]")
-  grid(,,col="red")
-  dev.off()
-  
-  png("N2_3.png")
-  plot(flightdata$N2_3,type = "l",col="blue", ylab = "N2 Eng #3 [%]", xlab = "Time [sec]")
-  grid(,,col="red")
-  dev.off()
-  
-  png("N2_4.png")
-  plot(flightdata$N2_4,type = "l",col="blue", ylab = "N2 Eng #4 [%]", xlab = "Time [sec]")
+  plot(ralt2,type = "l",col="blue", ylab = "Radio Altemeter #2 [ft]", xlab = "Time [1/8 sec]")
   grid(,,col="red")
   dev.off()
   
   png("ELEV_L.png")
-  plot(flightdata$ELEV_L,type = "l",col="blue", ylab = "Elevator Left [deg]", xlab = "Time [sec]")
+  plot(elev_l,type = "l",col="blue", ylab = "Elevator Left [deg]", xlab = "Time [1/8 sec]")
   grid(,,col="red")
   dev.off()
   
   png("ELEV_R.png")
-  plot(flightdata$ELEV_R_A,type = "l",col="blue", ylab = "Elevator Right [deg]", xlab = "Time [sec]")
+  plot(elev_r,type = "l",col="blue", ylab = "Elevator Right [deg]", xlab = "Time [1/8 sec]")
   grid(,,col="red")
   dev.off()
   
-  LDG_LH <- as.numeric(!as.numeric(as.factor(flightdata$LDG_LH))-1)
-  png("LDG_LH.png")
-  plot(LDG_LH,type = "l",col="blue", ylab = "Main Landing Gear Left", xlab = "Time [sec]")
-  grid(,,col="red")
-  dev.off()
   
-  LDG_RH <- as.numeric(!as.numeric(as.factor(flightdata$LDG_RH))-1)
-  png("LDG_RH.png")
-  plot(LDG_RH,type = "l",col="blue", ylab = "Main Landing Gear Right", xlab = "Time [sec]")
-  grid(,,col="red")
-  dev.off()
-  
-  LDG_NOSE <- as.numeric(!as.numeric(as.factor(flightdata$LDG_NOSE))-1)
-  png("LDG_NOSE.png")
-  plot(LDG_NOSE,type = "l",col="blue", ylab = "Nose Landing Gear", xlab = "Time [sec]")
-  grid(,,col="red")
-  dev.off()
-  
-  CG <- approx(seq(1:nrows), flightdata$CG,xout=c(1:nrows), method="linear",n=nrows)$y
   png("CG.png")
-  plot(CG,type = "l",col="blue", ylab = "Centre of Gravity [%MAC]", xlab = "Time [sec]")
+  plot(cg,type = "l",col="blue", ylab = "Centre of Gravity [%MAC]", xlab = "Time [1/8 sec]")
   grid(,,col="red")
   dev.off()
   
-  GW <- approx(seq(1:nrows), flightdata$GW,xout=c(1:nrows), method="linear",n=nrows)$y
   png("GW.png")
-  plot(GW,type = "l",col="blue", ylab = "Gross Weight [Kg]", xlab = "Time [sec]")
+  plot(gw,type = "l",col="blue", ylab = "Gross Weight [Kg]", xlab = "Time [1/8 sec]")
   grid(,,col="red")
   dev.off()
   
+  png("LONG.png")
+  plot(long,type = "l",col="blue", ylab = "Longitudinal Acceleration [g]", xlab = "Time [sec]")
+  grid(,,col="red")
+  dev.off()
+  
+  png("VERTG.png")
+  plot(vertg,type = "l",col="blue", ylab = "Vertical Acceleration [g]", xlab = "Time [1/8 sec]")
+  grid(,,col="red")
+  dev.off()
+  
+  png("PITCH.png")
+  plot(pitch,type = "l",col="blue", ylab = "Pitch [deg]", xlab = "Time [1/8 sec]")
+  grid(,,col="red")
+  dev.off()
+  
+  png("PITCH_RATE.png")
+  plot(pitch_rate,type = "l",col="blue", ylab = "Pitch Rate [deg/s]", xlab = "Time [1/8 sec]")
+  grid(,,col="red")
+  dev.off()
+  
+  png("PITCH_CAPT.png")
+  plot(pitch_capt,type = "l",col="blue", ylab = "Pitch Command Capt", xlab = "Time [1/8 sec]")
+  grid(,,col="red")
+  dev.off()
+  
+  png("PITCH_FO.png")
+  plot(pitch_fo,type = "l",col="blue", ylab = "Pitch Command FO", xlab = "Time [1/8 sec]")
+  grid(,,col="red")
+  dev.off()
+  
+  png("SAT.png")
+  plot(sat,type = "l",col="blue", ylab = "Static Air Temperature [deg C]", xlab = "Time [1/8 sec]")
+  grid(,,col="red")
+  dev.off()
+
+  png("N1_1.png")
+  plot(n1_1,type = "l",col="blue", ylab = "N1 Eng #1 [%]", xlab = "Time [sec]")
+  grid(,,col="red")
+  dev.off()
+  
+  png("N1_2.png")
+  plot(n1_2,type = "l",col="blue", ylab = "N1 Eng #2 [%]", xlab = "Time [sec]")
+  grid(,,col="red")
+  dev.off()
+  
+  png("N1_3.png")
+  plot(n1_3,type = "l",col="blue", ylab = "N1 Eng #3 [%]", xlab = "Time [sec]")
+  grid(,,col="red")
+  dev.off()
+  
+  png("N1_4.png")
+  plot(n1_4,type = "l",col="blue", ylab = "N1 Eng #4 [%]", xlab = "Time [sec]")
+  grid(,,col="red")
+  dev.off()
+  
+  png("N2_1.png")
+  plot(n2_1,type = "l",col="blue", ylab = "N2 Eng #1 [%]", xlab = "Time [sec]")
+  grid(,,col="red")
+  dev.off()
+  
+  png("N2_2.png")
+  plot(n2_2,type = "l",col="blue", ylab = "N2 Eng #2 [%]", xlab = "Time [sec]")
+  grid(,,col="red")
+  dev.off()
+  
+  png("N2_3.png")
+  plot(n2_3,type = "l",col="blue", ylab = "N2 Eng #3 [%]", xlab = "Time [sec]")
+  grid(,,col="red")
+  dev.off()
+  
+  png("N2_4.png")
+  plot(n2_4,type = "l",col="blue", ylab = "N2 Eng #4 [%]", xlab = "Time [sec]")
+  grid(,,col="red")
+  dev.off()
+  
+  png("LDG_LH.png")
+  plot(ldg_lh,type = "l",col="blue", ylab = "Main Landing Gear Left", xlab = "Time [1/8 sec]")
+  grid(,,col="red")
+  dev.off()
+  
+  png("LDG_RH.png")
+  plot(ldg_rh,type = "l",col="blue", ylab = "Main Landing Gear Right", xlab = "Time [1/8 sec]")
+  grid(,,col="red")
+  dev.off()
+  
+  png("LDG_NOSE.png")
+  plot(ldg_nose,type = "l",col="blue", ylab = "Nose Landing Gear", xlab = "Time [1/8 sec]")
+  grid(,,col="red")
+  dev.off()
+
 png("landing_gear.png")  
-plot(LDG_LH, type="l",xlab="Time [sec]",col="blue",lwd=2)
-lines(LDG_NOSE, type="l", col="black",lwd=2)
-lines(LDG_RH, type="l", col="brown",lwd=2)
+plot(ldg_lh, type="l",xlab="Time [sec]",col="blue",lwd=2)
+lines(ldg_nose, type="l", col="black",lwd=2)
+lines(ldg_rh, type="l", col="brown",lwd=2)
 # abline(v=rot,col="green", lwd=2)
 # abline(v=loff_sec,col="red", lwd=2)
 grid(,,col="dark red")
@@ -317,14 +310,19 @@ dev.off()
 #   grid(,,"dark red")
 #   dev.off()
 
- 
-  ##$## PDF reporting commented on 9 May 2020 to recover in a later stage
+
+  # PDF Reporting creation
+  #brew("takeoff_study.brew", paste0('takeoff_study',s,".tex"))
+  brew("takeoff_study.brew", "takeoff_study.tex")
+  system("pdflatex takeoff_study.tex")
   
-  # PDF Reporting
-  #setwd(binpath)
+  nome_do_ficheiro <- paste0('takeoff_study',s,".pdf")
+  init_command <- "mv takeoff_study.pdf"
+  rename_file  <- paste(init_command,nome_do_ficheiro)
+  system(rename_file)
   
-  brew("takeoff_study.brew", paste0('takeoff_study',s,".tex"))
-  texi2dvi(paste0('takeoff_study',s,".tex"), pdf = TRUE)
+  # This command stoped working - replaced by the commands above!!!
+  #texi2dvi(paste0('takeoff_study',s,".tex"), pdf = TRUE)
 
   setwd(work_dir)
   setwd("data")
@@ -367,81 +365,74 @@ for (s in 1:NROW(fileList)) {
                       FLAPL_3='character', FLAPL_F='character', FLIGHT_PHASE='character' )) 
     
     nrows <- NROW(flightdata)
-        
-# ## Interpolations
-#     pitch <- approx(seq(1:nrows), flightdata$PITCH,xout=c(1:nrows), method="linear",n=nrows)$y
-#     ptcr <- approx(seq(1:nrows), flightdata$PTCR,xout=c(1:nrows), method="linear",n=nrows)$y
-#     pitch_cpt <- approx(seq(1:nrows), flightdata$PITCH_CPT,xout=c(1:nrows), method="linear",n=nrows)$y
-#     pitch_fo <- approx(seq(1:nrows), flightdata$PITCH_FO,xout=c(1:nrows), method="linear",n=nrows)$y
-#     alt_std <- approx(seq(1:nrows), flightdata$ALT_STDC,xout=c(1:nrows), method="linear",n=nrows)$y
-#     raltd1 <- approx(seq(1:nrows), flightdata$RALTD1,xout=c(1:nrows), method="linear",n=nrows)$y
-#     raltd2 <- approx(seq(1:nrows), flightdata$RALTD2,xout=c(1:nrows), method="linear",n=nrows)$y
-#     head_mag <- approx(seq(1:nrows), flightdata$HEAD_MAG,xout=c(1:nrows), method="linear",n=nrows)$y
-#     ivv <- approx(seq(1:nrows), flightdata$IVV,xout=c(1:nrows), method="linear",n=nrows)$y
-#     long <- approx(seq(1:nrows), flightdata$LONG,xout=c(1:nrows), method="linear",n=nrows)$y
-#     latg <- approx(seq(1:nrows), flightdata$LATG,xout=c(1:nrows), method="linear",n=nrows)$y
-#     roll <- approx(seq(1:nrows), flightdata$ROLL,xout=c(1:nrows), method="linear",n=nrows)$y
-#     ias <- approx(seq(1:nrows), flightdata$IASC,xout=c(1:nrows), method="linear",n=nrows)$y
-#     mach <- approx(seq(1:nrows), flightdata$MACH,xout=c(1:nrows), method="linear",n=nrows)$y
-#     gs <- approx(seq(1:nrows), flightdata$GSC,xout=c(1:nrows), method="linear",n=nrows)$y
-#     gw1kg <- approx(seq(1:nrows), flightdata$GW1KG,xout=c(1:nrows), method="linear",n=nrows)$y
-#     fpa <- approx(seq(1:nrows), flightdata$FPA,xout=c(1:nrows), method="linear",n=nrows)$y
-#     fpac <- approx(seq(1:nrows), flightdata$FPAC,xout=c(1:nrows), method="linear",n=nrows)$y
-#     LG_left <- approx(seq(1:nrows), flightdata$LDG_ON_1,xout=c(1:nrows), method="linear",n=nrows)$y
-#     LG_nose <- approx(seq(1:nrows), flightdata$LDGN_ON,xout=c(1:nrows), method="linear",n=nrows)$y
-#     LG_right <- approx(seq(1:nrows), flightdata$LDG_ON_2,xout=c(1:nrows), method="linear",n=nrows)$y
-#     aoal <- approx(seq(1:nrows), flightdata$AOAL,xout=c(1:nrows), method="linear",n=nrows)$y
-#     aoar <- approx(seq(1:nrows), flightdata$AOAR,xout=c(1:nrows), method="linear",n=nrows)$y
-#     n11 <- approx(seq(1:nrows), flightdata$N11C,xout=c(1:nrows), method="linear",n=nrows)$y
-#     n12 <- approx(seq(1:nrows), flightdata$N12C,xout=c(1:nrows), method="linear",n=nrows)$y
-#     n21 <- approx(seq(1:nrows), flightdata$N21C,xout=c(1:nrows), method="linear",n=nrows)$y
-#     n22 <- approx(seq(1:nrows), flightdata$N22C,xout=c(1:nrows), method="linear",n=nrows)$y
-#     ff1 <- approx(seq(1:nrows), flightdata$FF1C,xout=c(1:nrows), method="linear",n=nrows)$y
-#     ff2 <- approx(seq(1:nrows), flightdata$FF2C,xout=c(1:nrows), method="linear",n=nrows)$y
-#     egt1 <- approx(seq(1:nrows), flightdata$EGT1C,xout=c(1:nrows), method="linear",n=nrows)$y
-#     egt2 <- approx(seq(1:nrows), flightdata$EGT2C,xout=c(1:nrows), method="linear",n=nrows)$y
-#     flx1_temp <- approx(seq(1:nrows), flightdata$FLX1_TEMP,xout=c(1:nrows), method="linear",n=nrows)$y
-#     flx2_temp <- approx(seq(1:nrows), flightdata$FLX2_TEMP,xout=c(1:nrows), method="linear",n=nrows)$y
-#     at_flx <- approx(seq(1:nrows), flightdata$AT_FLX,xout=c(1:nrows), method="linear",n=nrows)$y
-#     q1 <- approx(seq(1:nrows), flightdata$Q1,xout=c(1:nrows), method="linear",n=nrows)$y
-#     q2 <- approx(seq(1:nrows), flightdata$Q2,xout=c(1:nrows), method="linear",n=nrows)$y
-#     pt1 <- approx(seq(1:nrows), flightdata$PT1,xout=c(1:nrows), method="linear",n=nrows)$y
-#     pt2 <- approx(seq(1:nrows), flightdata$PT2,xout=c(1:nrows), method="linear",n=nrows)$y
-#     tla1 <- approx(seq(1:nrows), flightdata$TLA1,xout=c(1:nrows), method="linear",n=nrows)$y
-#     tla1c <- approx(seq(1:nrows), flightdata$TLA1C,xout=c(1:nrows), method="linear",n=nrows)$y
-#     tla2 <- approx(seq(1:nrows), flightdata$TLA2,xout=c(1:nrows), method="linear",n=nrows)$y
-#     tla2c <- approx(seq(1:nrows), flightdata$TLA2C,xout=c(1:nrows), method="linear",n=nrows)$y
-#     sat <- approx(seq(1:nrows), flightdata$SAT,xout=c(1:nrows), method="linear",n=nrows)$y
-#     tat <- approx(seq(1:nrows), flightdata$TAT,xout=c(1:nrows), method="linear",n=nrows)$y
-#     p0_1 <- approx(seq(1:nrows), flightdata$P0_1,xout=c(1:nrows), method="linear",n=nrows)$y
-#     p0_2 <- approx(seq(1:nrows), flightdata$P0_2,xout=c(1:nrows), method="linear",n=nrows)$y
-#     p2_1 <- approx(seq(1:nrows), flightdata$P2_1,xout=c(1:nrows), method="linear",n=nrows)$y
-#     p2_2 <- approx(seq(1:nrows), flightdata$P2_2,xout=c(1:nrows), method="linear",n=nrows)$y
-#     p31 <- approx(seq(1:nrows), flightdata$P31,xout=c(1:nrows), method="linear",n=nrows)$y
-#     p32 <- approx(seq(1:nrows), flightdata$P32,xout=c(1:nrows), method="linear",n=nrows)$y
-#     t12_1 <- approx(seq(1:nrows), flightdata$T12_1,xout=c(1:nrows), method="linear",n=nrows)$y
-#     t12_2 <- approx(seq(1:nrows), flightdata$T12_2,xout=c(1:nrows), method="linear",n=nrows)$y
-#     t25_1 <- approx(seq(1:nrows), flightdata$T25_1,xout=c(1:nrows), method="linear",n=nrows)$y
-#     t25_2 <- approx(seq(1:nrows), flightdata$T25_2,xout=c(1:nrows), method="linear",n=nrows)$y
-#     fm_fwc <- approx(seq(1:nrows), flightdata$FM_FWC,xout=c(1:nrows), method="linear",n=nrows)$y
-#     winspd <- approx(seq(1:nrows), flightdata$WIN_SPDR,xout=c(1:nrows), method="linear",n=nrows)$y
-#     windir <- approx(seq(1:nrows), flightdata$WIN_DIRR,xout=c(1:nrows), method="linear",n=nrows)$y
-#     vibn1fnt1 <- approx(seq(1:nrows), flightdata$VIB_N1FNT1,xout=c(1:nrows), method="linear",n=nrows)$y
-#     vibn1fnt2 <- approx(seq(1:nrows), flightdata$VIB_N1FNT2,xout=c(1:nrows), method="linear",n=nrows)$y
-#     vibn2fnt1 <- approx(seq(1:nrows), flightdata$VIB_N2FNT1,xout=c(1:nrows), method="linear",n=nrows)$y
-#     vibn2fnt2 <- approx(seq(1:nrows), flightdata$VIB_N2FNT2,xout=c(1:nrows), method="linear",n=nrows)$y
-#     
+     
+##### Langing Gear parameters #####
+    # Way to obtain the LG parameter @ 1Hz (discontinued @ 8Hz) 
+    # LDG_LH <- as.numeric(!as.numeric(as.factor(flightdata$LDG_LH))-1)
+    # LDG_RH <- as.numeric(!as.numeric(as.factor(flightdata$LDG_RH))-1)
+    # LDG_NOSE <- as.numeric(!as.numeric(as.factor(flightdata$LDG_NOSE))-1)
+    # LG Left
+    lgl <- min(which(flightdata$LDG_LH == "IN FLIGHT"))
+    ldg_lh <- c(1:nrows)
+    ldg_lh[1:(lgl-1)] <- 0
+    ldg_lh[lgl:nrows] <- 1
+    # LG Right
+    lgr <- min(which(flightdata$LDG_RH == "IN FLIGHT"))
+    ldg_rh <- c(1:nrows)
+    ldg_rh[1:(lgr-1)] <- 0
+    ldg_rh[lgr:nrows] <- 1
+    # LG Nose
+    lgn <- min(which(flightdata$LDG_NOSE == "IN FLIGHT"))
+    ldg_nose <- c(1:nrows)
+    ldg_nose[1:(lgn-1)] <- 0
+    ldg_nose[lgn:nrows] <- 1
     
-#   vrtg <- flightdata$VRTG
+    # Radio Altitude corrections
+    # RALT1
+    flightdata$RALT1[which(flightdata$RALT1==4095)] <- -1
+    flightdata$RALT1[which(flightdata$RALT1==4094)] <- -2
+    flightdata$RALT1[which(flightdata$RALT1==4093)] <- -2
+    flightdata$RALT1[which(flightdata$RALT1==4092)] <- -4
+    # RALT2
+    flightdata$RALT2[which(flightdata$RALT2==4095)] <- -1
+    flightdata$RALT2[which(flightdata$RALT2==4094)] <- -2
+    flightdata$RALT2[which(flightdata$RALT2==4093)] <- -2
+    flightdata$RALT2[which(flightdata$RALT2==4092)] <- -4
+    
+    # Vertical acceleration
+    vertg <- flightdata$VERTG
+    
+### Interpolations
+    gs <- approx(seq(1:nrows), flightdata$GS,xout=c(1:nrows), method="linear",n=nrows)$y
+    cas <- approx(seq(1:nrows), flightdata$CAS,xout=c(1:nrows), method="linear",n=nrows)$y
+    ralt1 <- approx(seq(1:nrows), flightdata$RALT1,xout=c(1:nrows), method="linear",n=nrows)$y
+    ralt2 <- approx(seq(1:nrows), flightdata$RALT2,xout=c(1:nrows), method="linear",n=nrows)$y
+    elev_l <- approx(seq(1:nrows), flightdata$ELEV_L,xout=c(1:nrows), method="linear",n=nrows)$y
+    elev_r <- approx(seq(1:nrows), flightdata$ELEV_R_A,xout=c(1:nrows), method="linear",n=nrows)$y
+    cg <- approx(seq(1:nrows), flightdata$CG,xout=c(1:nrows), method="linear",n=nrows)$y
+    gw <- approx(seq(1:nrows), flightdata$GW,xout=c(1:nrows), method="linear",n=nrows)$y
+    long <- approx(seq(1:nrows), flightdata$LONG,xout=c(1:nrows), method="linear",n=nrows)$y
+    pitch <- approx(seq(1:nrows), flightdata$PITCH,xout=c(1:nrows), method="linear",n=nrows)$y
+    pitch_rate <- approx(seq(1:nrows), flightdata$PITCH_RATE,xout=c(1:nrows), method="linear",n=nrows)$y
+    pitch_capt <- approx(seq(1:nrows), flightdata$PITCH_CAPT,xout=c(1:nrows), method="linear",n=nrows)$y
+    pitch_fo <- approx(seq(1:nrows), flightdata$PITCH_FO,xout=c(1:nrows), method="linear",n=nrows)$y
+    sat <- approx(seq(1:nrows), flightdata$SAT,xout=c(1:nrows), method="linear",n=nrows)$y
+    n1_1 <- approx(seq(1:nrows), flightdata$N1_1,xout=c(1:nrows), method="linear",n=nrows)$y
+    n1_2 <- approx(seq(1:nrows), flightdata$N1_2,xout=c(1:nrows), method="linear",n=nrows)$y
+    n1_3 <- approx(seq(1:nrows), flightdata$N1_3,xout=c(1:nrows), method="linear",n=nrows)$y
+    n1_4 <- approx(seq(1:nrows), flightdata$N1_4,xout=c(1:nrows), method="linear",n=nrows)$y
+    n2_1 <- approx(seq(1:nrows), flightdata$N2_1,xout=c(1:nrows), method="linear",n=nrows)$y
+    n2_2 <- approx(seq(1:nrows), flightdata$N2_2,xout=c(1:nrows), method="linear",n=nrows)$y
+    n2_3 <- approx(seq(1:nrows), flightdata$N2_3,xout=c(1:nrows), method="linear",n=nrows)$y
+    n2_4 <- approx(seq(1:nrows), flightdata$N2_4,xout=c(1:nrows), method="linear",n=nrows)$y
 
-
+    # Produce plots from each parameter
     to_plots()
-    #setwd(work_dir)
     
-
 }
 #} END FOR Cycle
 
+setwd(work_dir)
 
 timech1 <- proc.time() - timech1_0
 tsec <- timech1[3]
