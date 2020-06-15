@@ -1,4 +1,11 @@
+#####
+10 Jun 2020
+-> create_takeoff_data.R
+- landing gear and flap parameters have to be text to input in takeoff_study.R
+- Flight Phase parameter may also be necessary -> possible to copy from one of the original files
 
+
+#####
 
 * Review tick marks from X and Y axis
 
