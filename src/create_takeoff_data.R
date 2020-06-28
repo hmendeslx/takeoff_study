@@ -2,6 +2,12 @@
 #  HM @ Jun 2020
 #  Program reads a flight data file and extracts the data from the 
 #  take-off to write a CSV file
+#
+# 17 Jun 2020
+# - bug on landing gear signals corrected
+# - name of the parameter FLTNUM is not correct on the original file. This produces one error on
+#   computer #2 and a warning on computer #1 !??? -> same code can run on #1 and not on #2!!!???
+# 
 
 # Clean workspace (& environment data)
 rm(list=ls(all=TRUE))
@@ -62,13 +68,13 @@ ldg_lh[lgl:delta_time] <- "IN FLIGHT"
 
 lgr <- min(which(flightdata$LDG_ON_2[t0:t1] == 0 ))
 ldg_rh <- vector(mode="character", length=delta_time)
-ldg_rh[1:(lgl-1)] <- "ON GROUND"
-ldg_rh[lgl:delta_time] <- "IN FLIGHT"
+ldg_rh[1:(lgr-1)] <- "ON GROUND"
+ldg_rh[lgr:delta_time] <- "IN FLIGHT"
 
 lgn <- min(which(flightdata$LDGN_ON[t0:t1] == 0 ))
 ldg_nose <- vector(mode="character", length=delta_time)
-ldg_nose[1:(lgl-1)] <- "ON GROUND"
-ldg_nose[lgl:delta_time] <- "IN FLIGHT"
+ldg_nose[1:(lgn-1)] <- "ON GROUND"
+ldg_nose[lgn:delta_time] <- "IN FLIGHT"
 
 data_takeoff <- as.data.frame(cbind(flightdata$RALTD1[t0:t1],flightdata$RALTD2[t0:t1],flightdata$PITCH[t0:t1],
                 flightdata$GSC[t0:t1], flightdata$IASC[t0:t1], flightdata$ELEV_1[t0:t1], flightdata$ELEV_2[t0:t1],
@@ -81,7 +87,7 @@ data_takeoff <- as.data.frame(cbind(flightdata$RALTD1[t0:t1],flightdata$RALTD2[t
 
 names(data_takeoff) <- c("RALT1", "RALT2", "PITCH", "GS",
                          "CAS", "ELEV_L", "ELEV_R", "CG", "GW", "LONG",  "VERTG",
-                         "PITCH_RATE","PITCH_CPT","PITCH_FO", "SAT",
+                         "PITCH_RATE","PITCH_CAPT","PITCH_FO", "SAT",
                          "N1_1", "N1_2", "N1_3", "N1_4", "N2_1", "N2_2", "N2_3","N2_4","FLIGHT_PHASE",
                          "FLAPL_0", "FLAPL_1", "FLAPL_2", "FLAPL_3", "FLAPL_F", "LDG_LH", "LDG_RH","LDG_NOSE")
 

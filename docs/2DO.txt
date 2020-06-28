@@ -1,6 +1,9 @@
-#####
-10 Jun 2020
--> create_takeoff_data.R
+##### create_takeoff_data.R
+- the fields in the input flight data file doesn't match those in the fread(). This produces one warning in computer BLACK and an error in computer WHITE!?? - program does not run on the second computer
+
+
+
+##########
 - landing gear and flap parameters have to be text to input in takeoff_study.R
 - Flight Phase parameter may also be necessary -> possible to copy from one of the original files
 
@@ -28,6 +31,10 @@ measurements:
 * Mean ptcr during rotation -> produce distributions
 * Tailclearence estimation - geometry A340?
 * Graphic PTCR (average during rotation?) vs LO distance
+
+
+#### help links
+http://www.sthda.com/english/wiki/line-types-in-r-lty
 
 
 
