@@ -6,10 +6,11 @@
     # - easa.png
     # - takeoff_study.brew 
     #
-    # 17 Jun 2020
-    # - bug on the name of ELEV_R corrected
-    # - 
-    #
+    ########################
+    # 2DO 
+    # - include N1 and N2 into the same graphics
+    # - flaps @ take-off tem Bug
+    # - RA1 e RA2 sem valores (s=2)
     
     # Clean workspace (& environment data)
     rm(list=ls(all=TRUE))
@@ -34,20 +35,7 @@
     #library(lubridate)
     #library(xtable)
     
-    # 
-    # #########################################################################
-    # # finding parameters - Trouble-shooting
-    # # use:
-    # # > testpar("EXAMPLE")
-    # testpar <- function(str){
-    #   name <- vector(mode='character')
-    #   pars <- grep(str, names(flightdata))
-    #   for (i in 1:nrow(as.matrix(pars))){
-    #     name[i] <- names(flightdata)[pars[i]]  
-    #     #print(name)
-    #   }
-    #   return(name)
-    # }
+  
     # 
     # #########################################################################
     # panel.cor <- function(x, y, digits=2, prefix="", cex.cor, ...)
@@ -60,22 +48,8 @@
     #   if(missing(cex.cor)) cex.cor <- 1.5/strwidth(txt)
     #   text(0.5, 0.5, txt, cex = cex.cor )#* r)
     # }
-    # 
-    # 
-    # 
-    # measurement_plots <- function(r){
-    #   #print(r)
-    #   
-    #   xxxxx <- data.frame()
-    #   
-    #   xxxxx[r,1] <- time_considered
-    #   xxxxx[r,2] <- rotation_time
-    #  
-    #   return(xxxx)
-    #   
-    # }
-    
-    
+  
+
     #########################################################################
     to_plots <- function(){
     
@@ -85,9 +59,7 @@
       # par.table <- print(xtable(par.print, format="latex"), include.rownames=FALSE, 
       #              size="scriptsize") 
       #   
-      
-    
-    
+
       # Graphics
       # Fast Testing Command:
       # > with(data_takeoff, plot(FF1, N21, type="l", col="blue")); grid(,,col="dark red")
@@ -509,10 +481,12 @@
         if( max(na.omit(pitch_fo)) > max(na.omit(pitch_capt))) {
           # FO is the pilot flying
           fo_flying <- 1
+          pilot_flying <- "First officer"
           rotate <- min(which(pitch_fo < -2))  
         } else {
           # CAPT is the pilot flying
           capt_flying <- 1
+          pilot_flying <- "Captain"
           rotate <- min(which(pitch_capt < -2))
         }
         
